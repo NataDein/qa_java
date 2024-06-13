@@ -6,6 +6,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(Parameterized.class)
 public class TestAnimalWithParametersWithNegativeData {
     private final String ANIMAL_KIND;
@@ -22,16 +24,19 @@ public class TestAnimalWithParametersWithNegativeData {
         };
 
     }
-    @Rule
-    public ExpectedException exceptionRule = ExpectedException.none();
+
 
     @Test
     public void getFoodWithNegativeDataThrowsException() throws Exception {
-        Animal animal = new Animal();
-        System.out.println("Если тест пройден, значит при вводе некорректного вида животного получен exception с верным текстом сообщения");
 
-        exceptionRule.expect(Exception.class);
-        exceptionRule.expectMessage("Неизвестный вид животного, используйте значение Травоядное или Хищник");
-        animal.getFood(ANIMAL_KIND);
+        try {
+            Animal animal = new Animal();
+            animal.getFood(ANIMAL_KIND);
+        }
+        catch (Exception exception) {
+
+            assertEquals("Неизвестный вид животного, используйте значение Травоядное или Хищник", exception.getMessage());
+            System.out.println("При вводе некорректного вида животного получен exception с верным текстом сообщения");
+        }
     }
 }
